@@ -6,12 +6,17 @@ from beef_api import BeefAPI
 load_dotenv()
 
 
+TARGET_EXPLOIT_NAMES = ["Create Alert Dialog", "Google Phishing",
+                        "Pretty Theft", "Fake Notification Bar"]
+
 HOSTNAME = os.getenv("HOSTNAME", "https://beef.nullsecsig.com")
 USERNAME = os.getenv("USERNAME")
 PASSWORD = os.getenv("PASSWORD")
 
-TARGET_EXPLOIT_NAMES = ["Create Alert Dialog", "Google Phishing",
-                        "Pretty Theft", "Fake Notification Bar"]
+if USERNAME == None:
+    USERNAME = input("Username: ")
+if PASSWORD == None:
+    PASSWORD = input("Password: ")
 
 
 beef = BeefAPI(HOSTNAME)
