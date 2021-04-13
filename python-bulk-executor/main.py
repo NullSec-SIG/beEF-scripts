@@ -30,8 +30,9 @@ target_exploits = beef.get_exploits_of_names(TARGET_EXPLOIT_NAMES)
 
 while True:
     # Print menu
-    for count, exploit_name in enumerate(TARGET_EXPLOIT_NAMES):
+    for count, exploit_name in enumerate(TARGET_EXPLOIT_NAMES, 1):
         print(f"[{count}] {exploit_name}")
+    print("[0] Quit")
 
     # Get user input
     while True:
@@ -41,6 +42,10 @@ while True:
         except:
             print("invalid input! Please try again.")
             continue
+
+    # Quit
+    if exploit_index == 0:
+        break
 
     online_sessions = beef.get_online_sessions()
     online_session_ids = [session["session"]
