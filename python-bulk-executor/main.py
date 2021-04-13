@@ -9,20 +9,21 @@ load_dotenv()
 TARGET_EXPLOIT_NAMES = ["Create Alert Dialog", "Google Phishing",
                         "Pretty Theft", "Fake Notification Bar"]
 
-HOSTNAME = os.getenv("HOSTNAME", "https://beef.nullsecsig.com")
-LOGINNAME = os.getenv("LOGINNAME")
+HOST_NAME = os.getenv("HOST_NAME", "https://beef.nullsecsig.com")
+LOGIN_NAME = os.getenv("LOGIN_NAME")
 PASSWORD = os.getenv("PASSWORD")
+LOG_PATH = os.getenv("LOG_PATH", "./results.log")
 
-if LOGINNAME == None:
-    LOGINNAME = input("Login name: ")
+if LOGIN_NAME == None:
+    LOGIN_NAME = input("Login name: ")
 if PASSWORD == None:
     PASSWORD = input("Password: ")
 
 
-beef = BeefAPI(HOSTNAME)
-result_poller = ResultPoller(beef)
+beef = BeefAPI(HOST_NAME)
+result_poller = ResultPoller(beef, LOG_PATH)
 
-beef.login(LOGINNAME, PASSWORD)
+beef.login(LOGIN_NAME, PASSWORD)
 result_poller.start()
 
 target_exploits = beef.get_exploits_of_names(TARGET_EXPLOIT_NAMES)

@@ -60,8 +60,9 @@ class BeefAPI:
 
 
 class ResultPoller:
-    def __init__(self, beef: BeefAPI):
+    def __init__(self, beef: BeefAPI, log_path):
         self.beef = beef
+        self.log_path = log_path
         self.recent_commands: ExpiringDict = ExpiringDict(
             max_len=50, max_age_seconds=60)
         self.poll_thread = None
@@ -76,9 +77,13 @@ class ResultPoller:
                 command_result = self.beef.get_command_result(
                     session_id, command["module_id"], command["command_id"])
                 if command_result:
-                    print(command_result)
+                    self.log_result(command_result)
                     self.recent_commands.pop(session_id)
             time.sleep(1)
+
+    def log_result(self, command_result):
+        with open(self.log_path, "a") as log_file:
+            log_file.write(command_result["0"]["data"] + "\n")
 
     def start(self):
         self.poll_thread = threading.Thread(target=self.poll, daemon=True)
